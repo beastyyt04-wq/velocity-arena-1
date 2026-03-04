@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Velocity Arena — Nagpur's Premier Go-Kart Racing Complex</title>
+<meta name="description" content="Velocity Arena — Nagpur's fastest go-kart racing complex. 3 kart classes, 4 circuits, book online."/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,700;0,900;1,700;1,900&family=Barlow:wght@400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#FF2020;--yellow:#FFD600;--black:#080808;--dark:#0f0f0f;--mid:#181818;--light:#242424;--white:#F0EBE0;--grey:#777;--green:#00FF87;--orange:#FF6B00}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;cursor:none}
+.cursor{width:10px;height:10px;background:var(--red);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,background .2s}
+.cursor-ring{width:38px;height:38px;border:1.5px solid var(--red);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .18s ease;opacity:.5}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.3}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 48px;background:rgba(8,8,8,.95);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.05)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-icon{width:40px;height:40px;background:var(--red);clip-path:polygon(20% 0%,80% 0%,100% 20%,100% 80%,80% 100%,20% 100%,0% 80%,0% 20%);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:14px;color:var(--white);flex-shrink:0}
+.nav-brand{font-family:'Orbitron',sans-serif;font-weight:900;font-size:17px;letter-spacing:.08em;color:var(--white)}
+.nav-brand span{color:var(--red)}
+.nav-sub{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--grey);margin-top:1px}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-phone{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--grey)}
+.nav-phone strong{color:var(--white)}
+.nav-cta{background:var(--red);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:10px 24px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:background .2s;cursor:none}
+.nav-cta:hover{background:#cc0000}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 48px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 75% 65% at 52% 38%,rgba(255,32,32,.15) 0%,transparent 65%),linear-gradient(165deg,#080808 0%,#0f0f0f 55%,#080808 100%)}
+.hero-lines{position:absolute;inset:0;pointer-events:none}
+.hero-lines svg{width:100%;height:100%}
+.stripe-anim{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.stripe-anim span{position:absolute;height:1.5px;background:linear-gradient(90deg,transparent,rgba(255,32,32,.35),transparent);animation:sa 3s linear infinite}
+.stripe-anim span:nth-child(1){top:22%;width:55%;animation-delay:0s;animation-duration:2.4s}
+.stripe-anim span:nth-child(2){top:48%;width:38%;animation-delay:.9s;animation-duration:3.1s}
+.stripe-anim span:nth-child(3){top:72%;width:65%;animation-delay:1.7s;animation-duration:2.1s}
+@keyframes sa{from{transform:translateX(-100%)}to{transform:translateX(200vw)}}
+.hero-deco{position:absolute;right:-60px;top:50%;transform:translateY(-50%);font-family:'Orbitron',sans-serif;font-weight:900;font-size:340px;line-height:1;color:rgba(255,255,255,.018);user-select:none;pointer-events:none}
+
+.hero-content{position:relative;z-index:2;max-width:720px}
+.hero-identity{display:flex;align-items:center;gap:18px;margin-bottom:36px;opacity:0;animation:fu .7s .1s forwards}
+.hero-icon-big{width:68px;height:68px;background:var(--red);clip-path:polygon(20% 0%,80% 0%,100% 20%,100% 80%,80% 100%,20% 100%,0% 80%,0% 20%);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:22px;color:var(--white)}
+.hero-brand-words .main{font-family:'Orbitron',sans-serif;font-weight:900;font-size:34px;letter-spacing:.1em;line-height:1}
+.hero-brand-words .main span{color:var(--red)}
+.hero-brand-words .est{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--grey);margin-top:5px}
+
+.hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:16px;opacity:0;animation:fu .7s .3s forwards;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';display:block;width:28px;height:2px;background:var(--red)}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(62px,10vw,148px);line-height:.88;letter-spacing:-.01em;text-transform:uppercase;opacity:0;animation:fu .7s .5s forwards}
+.hero h1 .outline{-webkit-text-stroke:1.5px var(--white);color:transparent}
+.hero h1 .acc{color:var(--red)}
+.hero-slogan{margin-top:22px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:22px;letter-spacing:.08em;color:var(--yellow);text-transform:uppercase;opacity:0;animation:fu .7s .65s forwards}
+.hero-sub{margin-top:14px;font-size:17px;color:var(--grey);max-width:500px;line-height:1.7;opacity:0;animation:fu .7s .75s forwards}
+.hero-pills{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;opacity:0;animation:fu .7s .85s forwards}
+.pill{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.15em;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(255,255,255,.1);color:var(--grey)}
+.pill.hot{border-color:rgba(255,32,32,.4);color:var(--red);background:rgba(255,32,32,.07)}
+.hero-actions{margin-top:34px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;opacity:0;animation:fu .7s .95s forwards}
+.btn-p{background:var(--red);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:15px 38px;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);transition:background .2s,transform .15s;display:inline-block;cursor:none}
+.btn-p:hover{background:#e01010;transform:translateY(-2px)}
+.btn-s{background:transparent;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:14px 34px;border:1px solid rgba(255,255,255,.18);clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);transition:border-color .2s,transform .15s;display:inline-block;cursor:none}
+.btn-s:hover{border-color:var(--red);transform:translateY(-2px)}
+.btn-g{color:var(--white);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:10px;transition:gap .2s,color .2s;cursor:none}
+.btn-g:hover{gap:16px;color:var(--yellow)}
+
+/* ADDRESS BAR */
+.addr-bar{background:var(--mid);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);padding:16px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.addr-item{display:flex;align-items:center;gap:12px}
+.addr-icon{width:34px;height:34px;background:rgba(255,32,32,.1);border:1px solid rgba(255,32,32,.2);display:flex;align-items:center;justify-content:center;font-size:15px;clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);flex-shrink:0}
+.addr-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--grey)}
+.addr-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;color:var(--white);margin-top:1px}
+
+/* TICKER */
+.ticker{background:var(--red);padding:11px 0;overflow:hidden}
+.ticker-inner{display:flex;animation:tick 22s linear infinite;white-space:nowrap}
+.titem{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--white);padding:0 32px}
+.tsep{color:rgba(255,255,255,.35);margin-right:32px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+.stat{padding:44px;border-right:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden}
+.stat:last-child{border-right:none}
+.stat::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.stat:hover::before{transform:scaleX(1)}
+.stat-num{font-family:'Orbitron',sans-serif;font-weight:900;font-size:50px;line-height:1;color:var(--white)}
+.stat-num sup{font-size:20px;color:var(--red)}
+.stat-lbl{margin-top:10px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey)}
+
+/* WHY US */
+.why{background:var(--dark);padding:100px 48px}
+.why-grid{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.wcard{background:var(--mid);padding:40px 34px;position:relative;overflow:hidden;transition:background .3s}
+.wcard:hover{background:var(--light)}
+.wcard::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--red);transition:height .4s ease}
+.wcard:hover::before{height:100%}
+.wcard-icon{font-size:42px;margin-bottom:18px}
+.wcard-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;text-transform:uppercase;margin-bottom:12px}
+.wcard-desc{font-size:14px;color:var(--grey);line-height:1.7}
+
+/* SECTION COMMON */
+section{padding:100px 48px}
+.stag{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stag::before{content:'';display:block;width:28px;height:2px;background:var(--red)}
+.stitle{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(44px,6vw,78px);line-height:.92;text-transform:uppercase}
+.stitle .outline{-webkit-text-stroke:1px var(--white);color:transparent}
+.section-intro{margin-top:18px;max-width:560px;font-size:16px;color:var(--grey);line-height:1.7}
+
+/* KART SECTION */
+.kart-section{background:var(--black)}
+.kart-grid{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.kcard{background:var(--mid);position:relative;overflow:hidden;transition:background .3s;cursor:none}
+.kcard:hover{background:var(--light)}
+.kcard.selected{background:rgba(255,32,32,.1);outline:2px solid rgba(255,32,32,.5)}
+.kimg{width:100%;height:230px;position:relative;overflow:hidden;background:linear-gradient(135deg,#0d0d0d,#1a1a1a);display:flex;align-items:center;justify-content:center}
+.kimg::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,var(--mid),transparent);pointer-events:none}
+.kcard.selected .kimg::after{background:linear-gradient(to top,rgba(18,4,4,.9),transparent)}
+.kimg-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:18px;transition:transform .4s ease}
+.kcard:hover .kimg-wrap{transform:scale(1.06)}
+.kclass-badge{position:absolute;top:14px;left:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:11px;letter-spacing:.2em;text-transform:uppercase;background:var(--red);color:var(--white);padding:5px 12px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);z-index:2}
+.kbody{padding:28px 28px 32px}
+.knum-bg{font-family:'Orbitron',sans-serif;font-weight:900;font-size:80px;line-height:1;color:rgba(255,255,255,.03);position:absolute;bottom:14px;right:14px;user-select:none}
+.kname{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:32px;text-transform:uppercase;line-height:.95;margin-bottom:8px}
+.ktag{font-size:13px;color:var(--grey);margin-bottom:22px;line-height:1.55}
+.kspecs{display:flex;flex-direction:column;gap:11px;margin-bottom:20px}
+.kspec-row{display:flex;justify-content:space-between;align-items:center}
+.kspec-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey)}
+.kbar{display:flex;gap:3px}
+.bs{width:20px;height:5px;background:rgba(255,255,255,.08);border-radius:1px}
+.bs.r{background:var(--red)}
+.bs.y{background:var(--yellow)}
+.bs.g{background:var(--green)}
+.khighlights{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.ktag2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(255,255,255,.1);color:var(--grey)}
+.kprice-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
+.kprice{font-family:'Orbitron',sans-serif;font-weight:900;font-size:26px}
+.kprice small{font-size:11px;color:var(--grey);font-weight:400}
+.kspeed{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--grey);text-align:right}
+.kspeed strong{color:var(--white);font-size:14px;display:block}
+.kbtn{width:100%;padding:14px;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;letter-spacing:.14em;text-transform:uppercase;cursor:none;transition:background .2s,border-color .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.kbtn:hover{background:rgba(255,32,32,.2);border-color:var(--red)}
+.kcard.selected .kbtn{background:var(--red);border-color:var(--red)}
+
+/* TRACK CARDS */
+.track-section{background:var(--dark)}
+.track-grid{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.tcard{background:var(--mid);overflow:hidden;position:relative;cursor:none;transition:background .3s}
+.tcard:hover{background:var(--light)}
+.tcard.selected{outline:2px solid var(--red)}
+.tvis{padding:32px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.015);border-bottom:1px solid rgba(255,255,255,.06);height:190px;position:relative}
+.tvis svg{width:100%;max-height:150px}
+.ttype{position:absolute;top:12px;right:12px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(255,255,255,.1);color:var(--grey)}
+.tbody{padding:26px 28px}
+.tname{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;margin-bottom:7px}
+.tdesc{font-size:13px;color:var(--grey);line-height:1.6;margin-bottom:16px}
+.tstats{display:flex;gap:18px;margin-bottom:16px}
+.tstat .v{font-family:'Orbitron',sans-serif;font-weight:700;font-size:22px;color:var(--white)}
+.tstat .k{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.tbtn{width:100%;padding:11px;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:none;transition:background .2s,border-color .2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.tbtn:hover{background:rgba(255,32,32,.2);border-color:var(--red)}
+.tcard.selected .tbtn{background:var(--red);border-color:var(--red)}
+
+/* EXPERIENCES */
+.exp-grid{margin-top:60px;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:3px}
+.ecard{background:var(--mid);padding:38px;position:relative;overflow:hidden;cursor:none;transition:background .3s}
+.ecard:hover{background:var(--light)}
+.ecard.large{grid-row:span 2}
+.ecard::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(255,32,32,.06));pointer-events:none}
+.enum{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:12px;letter-spacing:.2em;color:var(--red);margin-bottom:52px}
+.eicon{font-size:34px;margin-bottom:16px}
+.etitle{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;line-height:1;margin-bottom:10px}
+.ecard.large .etitle{font-size:46px}
+.edesc{font-size:14px;color:var(--grey);line-height:1.6}
+.espeed{position:absolute;bottom:24px;right:24px;font-family:'Orbitron',sans-serif;font-weight:900;font-size:64px;line-height:1;color:rgba(255,255,255,.025)}
+
+/* BOOKING */
+.booking{background:var(--black)}
+.book-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-top:60px}
+.book-form{display:flex;flex-direction:column;gap:15px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.fgrp{display:flex;flex-direction:column;gap:7px}
+.fgrp label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey)}
+.fgrp input,.fgrp select,.fgrp textarea{background:var(--mid);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:13px 15px;font-family:'Barlow',sans-serif;font-size:15px;outline:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:border-color .2s;-webkit-appearance:none;resize:none}
+.fgrp input:focus,.fgrp select:focus,.fgrp textarea:focus{border-color:var(--red)}
+.fgrp select option{background:var(--mid)}
+.sum-box{background:rgba(255,32,32,.07);border:1px solid rgba(255,32,32,.2);padding:16px 18px;display:flex;flex-direction:column;gap:7px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.sum-line{display:flex;justify-content:space-between;align-items:center}
+.sum-lbl{color:var(--grey);text-transform:uppercase;letter-spacing:.1em;font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.sum-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;color:var(--white)}
+.sum-ph{color:var(--grey);font-size:13px;font-style:italic}
+.sub-btn{margin-top:6px;background:var(--red);color:var(--white);border:none;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:.14em;text-transform:uppercase;padding:18px;clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);cursor:none;transition:background .2s,transform .15s}
+.sub-btn:hover{background:#cc0000;transform:translateY(-2px)}
+.pcards{display:flex;flex-direction:column;gap:2px}
+.pcard{background:var(--mid);padding:22px 26px;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.pcard:hover{background:var(--light)}
+.pcard.feat{background:var(--red)}
+.pcard.feat:hover{background:#e01010}
+.pname{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;text-transform:uppercase}
+.pdetail{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+.pamount{font-family:'Orbitron',sans-serif;font-weight:900;font-size:26px;line-height:1}
+.pamount small{font-size:11px;font-style:normal;color:rgba(255,255,255,.45)}
+
+/* TESTIMONIALS */
+.testi-section{background:var(--dark)}
+.testi-grid{margin-top:60px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.tcard2{background:var(--mid);padding:34px;transition:background .3s}
+.tcard2:hover{background:var(--light)}
+.tstars{color:var(--yellow);font-size:14px;letter-spacing:2px;margin-bottom:18px}
+.ttext{font-size:15px;line-height:1.7;color:rgba(255,255,255,.8);margin-bottom:22px}
+.tauthor{display:flex;align-items:center;gap:13px}
+.tavatar{width:42px;height:42px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;flex-shrink:0}
+.taname{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;text-transform:uppercase}
+.tarole{font-size:11px;color:var(--grey)}
+
+/* CONTACT */
+.contact-section{background:var(--black);padding:100px 48px}
+.contact-grid{margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.cinfo{background:var(--mid);padding:44px}
+.cmap{background:var(--mid);padding:44px;display:flex;flex-direction:column;gap:22px}
+.cinfo h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:38px;text-transform:uppercase;line-height:.95;margin-bottom:28px}
+.cdetail{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.cdet-icon{width:42px;height:42px;background:rgba(255,32,32,.1);border:1px solid rgba(255,32,32,.2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.cdet-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey);margin-bottom:4px}
+.cdet-val{font-size:15px;color:var(--white);line-height:1.55}
+.cdet-val a{color:var(--white);text-decoration:none;transition:color .2s}
+.cdet-val a:hover{color:var(--red)}
+.hours{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.hrow{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.hrow .day{color:var(--grey)}
+.hrow .time{color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.map-area{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:22px;display:flex;align-items:center;justify-content:center;flex:1;min-height:260px}
+.map-area svg{width:100%;height:auto}
+.map-btn{background:var(--red);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:14px;text-align:center;text-decoration:none;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);display:block;transition:background .2s}
+.map-btn:hover{background:#cc0000}
+
+/* CHECKERED */
+.chk{height:12px;background-image:repeating-linear-gradient(90deg,var(--white) 0,var(--white) 12px,var(--black) 12px,var(--black) 24px);opacity:.07}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding:60px 48px 36px}
+.ftop{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:56px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.06)}
+.fbrand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.flogo-icon{width:42px;height:42px;background:var(--red);clip-path:polygon(20% 0%,80% 0%,100% 20%,100% 80%,80% 100%,20% 100%,0% 80%,0% 20%);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:900;font-size:16px;color:var(--white)}
+.flogo-name{font-family:'Orbitron',sans-serif;font-weight:900;font-size:20px;letter-spacing:.06em}
+.flogo-name span{color:var(--red)}
+.ftagline{color:var(--grey);font-size:14px;line-height:1.7;max-width:270px}
+.fslogan{margin-top:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:16px;color:var(--yellow)}
+.fbadges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.fbadge{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:5px 11px;border:1px solid rgba(255,255,255,.08);color:var(--grey)}
+.fcol h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--grey);margin-bottom:18px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.fcol a{font-size:14px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.fcol a:hover{color:var(--white)}
+.fbot{margin-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.fcopy{font-size:13px;color:var(--grey)}
+.fsocials{display:flex;gap:10px}
+.slink{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;text-decoration:none;color:var(--grey);transition:border-color .2s,color .2s,background .2s;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+.slink:hover{border-color:var(--red);color:var(--white);background:rgba(255,32,32,.12)}
+
+/* ANIMATIONS */
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.rd1{transition-delay:.12s}
+.rd2{transition-delay:.24s}
+.rd3{transition-delay:.36s}
+
+/* MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-ov.open{opacity:1;pointer-events:all}
+.modal{background:var(--mid);padding:52px;max-width:500px;width:90%;position:relative;clip-path:polygon(16px 0%,100% 0%,calc(100% - 16px) 100%,0% 100%);text-align:center}
+.m-icon{font-size:52px;margin-bottom:18px}
+.m-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:46px;text-transform:uppercase;line-height:.9;margin-bottom:14px}
+.m-title span{color:var(--red)}
+.m-body{color:var(--grey);font-size:15px;line-height:1.7;margin-bottom:22px}
+.m-ref{font-family:'Orbitron',sans-serif;font-weight:700;font-size:17px;color:var(--yellow);margin-bottom:26px;background:rgba(255,214,0,.06);padding:13px;border:1px solid rgba(255,214,0,.15)}
+.m-close{background:var(--red);color:var(--white);border:none;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;letter-spacing:.14em;text-transform:uppercase;padding:13px 38px;cursor:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+
+/* ADMIN */
+.admin-btn{position:fixed;bottom:26px;right:26px;z-index:300;background:var(--mid);border:1px solid rgba(255,255,255,.1);color:var(--grey);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:9px 18px;cursor:none;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:all .2s}
+.admin-btn:hover{border-color:var(--red);color:var(--white)}
+.admin-panel{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:600;overflow-y:auto;display:none}
+.admin-panel.open{display:block}
+.adm-inner{max-width:1000px;margin:0 auto;padding:56px 36px}
+.adm-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}
+.adm-title{font-family:'Orbitron',sans-serif;font-weight:900;font-size:24px}
+.adm-title span{color:var(--red)}
+.adm-close{background:none;border:1px solid rgba(255,255,255,.2);color:var(--grey);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:9px 18px;cursor:none;transition:all .2s}
+.adm-close:hover{border-color:var(--red);color:var(--white)}
+.adm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:36px}
+.adm-stat{background:var(--mid);padding:22px;text-align:center}
+.adm-stat .n{font-family:'Orbitron',sans-serif;font-weight:900;font-size:32px;color:var(--red)}
+.adm-stat .l{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:.12em;margin-top:5px}
+.btable{width:100%;border-collapse:collapse}
+.btable th{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);padding:11px 13px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06)}
+.btable td{padding:12px 13px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04)}
+.btable tr:hover td{background:rgba(255,255,255,.02)}
+.badge-c{display:inline-block;padding:3px 9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);background:rgba(0,255,135,.12);color:var(--green)}
+.no-book{text-align:center;padding:56px;color:var(--grey)}
+.no-book p{font-family:'Barlow Condensed',sans-serif;font-size:22px;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-icon">VA</div>
+    <div>
+      <div class="nav-brand">VELOCITY <span>ARENA</span></div>
+      <div class="nav-sub">Race. Conquer. Repeat.</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#karts">Karts</a></li>
+    <li><a href="#tracks">Tracks</a></li>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-phone">📞 <strong>+91 98765 43210</strong></div>
+    <a href="#book" class="nav-cta">Book Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="stripe-anim"><span></span><span></span><span></span></div>
+  <div class="hero-lines">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="none" fill="none">
+      <path d="M0 600 Q 360 400,720 550 T 1440 450" stroke="rgba(255,32,32,.07)" stroke-width="1"/>
+      <path d="M0 650 Q 360 450,720 600 T 1440 500" stroke="rgba(255,32,32,.04)" stroke-width="1"/>
+      <line x1="200" y1="0" x2="200" y2="900" stroke="rgba(255,255,255,.015)" stroke-width="1"/>
+      <line x1="500" y1="0" x2="500" y2="900" stroke="rgba(255,255,255,.015)" stroke-width="1"/>
+      <line x1="960" y1="0" x2="960" y2="900" stroke="rgba(255,255,255,.015)" stroke-width="1"/>
+      <line x1="1240" y1="0" x2="1240" y2="900" stroke="rgba(255,255,255,.015)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="hero-deco">V</div>
+  <div class="hero-content">
+    <div class="hero-identity">
+      <div class="hero-icon-big">VA</div>
+      <div class="hero-brand-words">
+        <div class="main">VELOCITY <span>ARENA</span></div>
+        <div class="est">Est. 2019 · Nagpur, Maharashtra, India</div>
+      </div>
+    </div>
+    <p class="hero-eyebrow">Nagpur's #1 Go-Kart Racing Complex</p>
+    <h1>WHERE<br><span class="acc">SPEED</span> MEETS<br><span class="outline">LEGEND</span></h1>
+    <p class="hero-slogan">"Race. Conquer. Repeat." — The Only Track That Matters.</p>
+    <p class="hero-sub">Three world-class kart classes. Four championship circuits. One obsession — pushing you to your absolute limit. This is not just karting. This is Velocity Arena.</p>
+    <div class="hero-pills">
+      <span class="pill hot">🏎 3 Kart Classes</span>
+      <span class="pill hot">🛣 4 Race Circuits</span>
+      <span class="pill">⚡ 95 km/h Top Speed</span>
+      <span class="pill">🌙 Night Racing</span>
+      <span class="pill">🏆 Pro Timing System</span>
+      <span class="pill">👶 Junior Track</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#book" class="btn-p">Book Your Race Now</a>
+      <a href="#karts" class="btn-s">Explore Karts</a>
+      <a href="#tracks" class="btn-g">See All Tracks <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ADDRESS BAR -->
+<div class="addr-bar">
+  <div class="addr-item"><div class="addr-icon">📍</div><div><div class="addr-lbl">Location</div><div class="addr-val">Plot 14, Ring Road, Nagpur — 440001, Maharashtra</div></div></div>
+  <div class="addr-item"><div class="addr-icon">🕐</div><div><div class="addr-lbl">Opening Hours</div><div class="addr-val">Mon – Sun: 10:00 AM – 10:00 PM</div></div></div>
+  <div class="addr-item"><div class="addr-icon">📞</div><div><div class="addr-lbl">Call Us</div><div class="addr-val">+91 98765 43210</div></div></div>
+  <div class="addr-item"><div class="addr-icon">✉️</div><div><div class="addr-lbl">Email</div><div class="addr-val">info@velocityarena.in</div></div></div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="titem"><span class="tsep">★</span>VELOCITY ARENA — NAGPUR</span>
+    <span class="titem"><span class="tsep">★</span>3 KART PERFORMANCE CLASSES</span>
+    <span class="titem"><span class="tsep">★</span>95 KM/H TOP SPEED</span>
+    <span class="titem"><span class="tsep">★</span>4 CHAMPIONSHIP CIRCUITS</span>
+    <span class="titem"><span class="tsep">★</span>NIGHT RACING FROM 7PM</span>
+    <span class="titem"><span class="tsep">★</span>OPEN 7 DAYS A WEEK</span>
+    <span class="titem"><span class="tsep">★</span>CORPORATE & BIRTHDAY EVENTS</span>
+    <span class="titem"><span class="tsep">★</span>VELOCITY ARENA — NAGPUR</span>
+    <span class="titem"><span class="tsep">★</span>3 KART PERFORMANCE CLASSES</span>
+    <span class="titem"><span class="tsep">★</span>95 KM/H TOP SPEED</span>
+    <span class="titem"><span class="tsep">★</span>4 CHAMPIONSHIP CIRCUITS</span>
+    <span class="titem"><span class="tsep">★</span>NIGHT RACING FROM 7PM</span>
+    <span class="titem"><span class="tsep">★</span>OPEN 7 DAYS A WEEK</span>
+    <span class="titem"><span class="tsep">★</span>CORPORATE & BIRTHDAY EVENTS</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat reveal"><div class="stat-num">95<sup>+</sup></div><div class="stat-lbl">KM/H Top Speed</div></div>
+  <div class="stat reveal rd1"><div class="stat-num">4<sup>tracks</sup></div><div class="stat-lbl">Race Circuits</div></div>
+  <div class="stat reveal rd2"><div class="stat-num">30<sup>+</sup></div><div class="stat-lbl">Karts in Fleet</div></div>
+  <div class="stat reveal rd3"><div class="stat-num">75k<sup>+</sup></div><div class="stat-lbl">Laps Completed</div></div>
+</div>
+
+<!-- WHY US -->
+<div class="why">
+  <div class="stag">Why Choose Us</div>
+  <h2 class="stitle">THE VELOCITY<br><span class="outline">DIFFERENCE</span></h2>
+  <div class="why-grid">
+    <div class="wcard reveal"><div class="wcard-icon">🏎️</div><div class="wcard-title">3 Kart Classes</div><div class="wcard-desc">From lightweight speed demons to heavy grip monsters — every driver finds their perfect machine. Our entire fleet is maintained to race-day standards before every single session.</div></div>
+    <div class="wcard reveal rd1"><div class="wcard-icon">🛣️</div><div class="wcard-title">4 Unique Circuits</div><div class="wcard-desc">Oval, technical, serpentine, and championship layouts. Each track is a completely different challenge. Master one and you'll want to conquer all four.</div></div>
+    <div class="wcard reveal rd2"><div class="wcard-icon">⏱️</div><div class="wcard-title">Pro Timing System</div><div class="wcard-desc">Millisecond-accurate lap timing displayed live on-screen. Track your improvement every session and challenge for the all-time track record.</div></div>
+    <div class="wcard reveal"><div class="wcard-icon">🌙</div><div class="wcard-title">Night Racing</div><div class="wcard-desc">Full floodlit sessions from 7PM onwards on the Night Serpent circuit. Faster, louder and completely unforgettable after dark.</div></div>
+    <div class="wcard reveal rd1"><div class="wcard-icon">🛡️</div><div class="wcard-title">Safety First</div><div class="wcard-desc">Full safety briefing before every session. Helmets, neck braces and gloves provided. Certified marshals on track at all times. FIA-standard barriers throughout.</div></div>
+    <div class="wcard reveal rd2"><div class="wcard-icon">🎯</div><div class="wcard-title">For Everyone</div><div class="wcard-desc">Ages 7 to 70. Solo racers, groups, corporate teams, birthday parties. Junior, adult, and pro karts. If you want to race, we have a slot for you today.</div></div>
+  </div>
+</div>
+
+<div class="chk"></div>
+
+<!-- KART CLASSES -->
+<section id="karts" class="kart-section">
+  <div class="stag">Choose Your Machine</div>
+  <h2 class="stitle">SELECT YOUR<br><span class="outline">KART CLASS</span></h2>
+  <p class="section-intro">Every kart is built different. Choose the class that matches your racing style — or challenge yourself with all three across our four circuits.</p>
+  <div class="kart-grid">
+
+    <!-- KART 1 -->
+    <div class="kcard reveal" id="kart-1" onclick="selectKart(1,'Sprint Blade','₹+0')">
+      <div class="kimg">
+        <div class="kclass-badge">Class 1 — Speed</div>
+        <div class="kimg-wrap">
+          <svg viewBox="0 0 320 180" fill="none">
+            <ellipse cx="160" cy="163" rx="108" ry="9" fill="rgba(0,0,0,.5)"/>
+            <rect x="40" y="128" width="18" height="34" rx="9" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <rect x="262" y="128" width="18" height="34" rx="9" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <rect x="68" y="134" width="14" height="28" rx="7" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <rect x="238" y="134" width="14" height="28" rx="7" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+            <path d="M70 100 L80 80 L240 80 L250 100 L260 140 L60 140 Z" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="1"/>
+            <path d="M60 110 L80 95 L80 130 L60 130 Z" fill="#FF2020" opacity=".75"/>
+            <path d="M260 110 L240 95 L240 130 L260 130 Z" fill="#FF2020" opacity=".75"/>
+            <path d="M90 80 L100 55 L220 55 L230 80 Z" fill="#FF2020"/>
+            <path d="M120 78 L130 56 L190 56 L200 78 Z" fill="#111" stroke="#FF2020" stroke-width="1"/>
+            <ellipse cx="160" cy="52" rx="24" ry="20" fill="#CC0000"/>
+            <ellipse cx="160" cy="50" rx="20" ry="14" fill="#FF2020"/>
+            <rect x="148" y="48" width="24" height="10" rx="5" fill="#111" opacity=".8"/>
+            <rect x="150" y="49" width="20" height="7" rx="3" fill="#FFD600" opacity=".65"/>
+            <path d="M90 138 L78 146 L100 146 Z" fill="#FF2020"/>
+            <path d="M230 138 L220 146 L242 146 Z" fill="#FF2020"/>
+            <line x1="160" y1="80" x2="155" y2="70" stroke="#555" stroke-width="2"/>
+            <line x1="18" y1="105" x2="55" y2="105" stroke="#FF2020" stroke-width="1.5" opacity=".5" stroke-dasharray="4 3"/>
+            <line x1="8" y1="118" x2="50" y2="118" stroke="#FF2020" stroke-width="1" opacity=".25" stroke-dasharray="3 4"/>
+            <rect x="140" y="132" width="40" height="13" rx="2" fill="#FF2020"/>
+            <text x="160" y="142" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="9" fill="white">01</text>
+          </svg>
+        </div>
+      </div>
+      <div class="kbody">
+        <div class="knum-bg">01</div>
+        <div class="kname">Sprint Blade</div>
+        <div class="ktag">Speed-focused. Lightweight chassis engineered for raw acceleration and maximum top-end velocity on the straights.</div>
+        <div class="kspecs">
+          <div class="kspec-row"><span class="kspec-lbl">⚡ Speed</span><div class="kbar"><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">🎯 Handling</span><div class="kbar"><div class="bs y"></div><div class="bs y"></div><div class="bs"></div><div class="bs"></div><div class="bs"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">⚖ Weight</span><div class="kbar"><div class="bs g"></div><div class="bs g"></div><div class="bs g"></div><div class="bs g"></div><div class="bs"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">🛡 Stability</span><div class="kbar"><div class="bs y"></div><div class="bs y"></div><div class="bs"></div><div class="bs"></div><div class="bs"></div></div></div>
+        </div>
+        <div class="khighlights"><span class="ktag2">Lightweight</span><span class="ktag2">Max Speed</span><span class="ktag2">All Levels</span></div>
+        <div class="kprice-row"><div class="kprice">Included <small>in all packages</small></div><div class="kspeed">Top Speed<strong>95 km/h</strong></div></div>
+        <button class="kbtn" id="kartbtn-1">SELECT SPRINT BLADE →</button>
+      </div>
+    </div>
+
+    <!-- KART 2 -->
+    <div class="kcard reveal rd1" id="kart-2" onclick="selectKart(2,'Drift King','₹+200')">
+      <div class="kimg">
+        <div class="kclass-badge">Class 2 — Smooth</div>
+        <div class="kimg-wrap">
+          <svg viewBox="0 0 320 180" fill="none">
+            <ellipse cx="160" cy="163" rx="114" ry="10" fill="rgba(0,0,0,.5)"/>
+            <rect x="32" y="122" width="20" height="40" rx="10" fill="#1a1a1a" stroke="#FFD600" stroke-width="1.5"/>
+            <rect x="268" y="122" width="20" height="40" rx="10" fill="#1a1a1a" stroke="#FFD600" stroke-width="1.5"/>
+            <rect x="65" y="128" width="15" height="32" rx="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5" transform="rotate(-4 72 144)"/>
+            <rect x="240" y="128" width="15" height="32" rx="7" fill="#1a1a1a" stroke="#555" stroke-width="1.5" transform="rotate(4 247 144)"/>
+            <path d="M65 105 L75 82 L245 82 L255 105 L265 142 L55 142 Z" fill="#1c1c1c" stroke="#2e2e2e" stroke-width="1"/>
+            <path d="M55 112 L75 97 L75 132 L55 132 Z" fill="#FFD600" opacity=".85"/>
+            <path d="M265 112 L245 97 L245 132 L265 132 Z" fill="#FFD600" opacity=".85"/>
+            <path d="M88 82 L98 57 L222 57 L232 82 Z" fill="#e8e8e8"/>
+            <path d="M118 80 L128 58 L192 58 L202 80 Z" fill="#111" stroke="#FFD600" stroke-width="1.5"/>
+            <ellipse cx="160" cy="53" rx="25" ry="21" fill="#d0d0d0"/>
+            <ellipse cx="160" cy="51" rx="21" ry="15" fill="#f0f0f0"/>
+            <rect x="148" y="49" width="24" height="10" rx="5" fill="#111" opacity=".8"/>
+            <rect x="150" y="50" width="20" height="7" rx="3" fill="#FFD600" opacity=".8"/>
+            <line x1="100" y1="82" x2="100" y2="57" stroke="#FFD600" stroke-width="3"/>
+            <line x1="220" y1="82" x2="220" y2="57" stroke="#FFD600" stroke-width="3"/>
+            <path d="M85 140 L70 149 L106 149 Z" fill="#FFD600"/>
+            <path d="M235 140 L214 149 L250 149 Z" fill="#FFD600"/>
+            <line x1="160" y1="82" x2="155" y2="72" stroke="#555" stroke-width="2"/>
+            <rect x="140" y="133" width="40" height="13" rx="2" fill="#FFD600"/>
+            <text x="160" y="143" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="9" fill="#111">02</text>
+          </svg>
+        </div>
+      </div>
+      <div class="kbody">
+        <div class="knum-bg">02</div>
+        <div class="kname">Drift King</div>
+        <div class="ktag">Smooth handling meets a lightweight build. The perfect weapon for technical corner-heavy circuits. Designed to carve every apex perfectly.</div>
+        <div class="kspecs">
+          <div class="kspec-row"><span class="kspec-lbl">⚡ Speed</span><div class="kbar"><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div><div class="bs"></div><div class="bs"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">🎯 Handling</span><div class="kbar"><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">⚖ Weight</span><div class="kbar"><div class="bs g"></div><div class="bs g"></div><div class="bs g"></div><div class="bs"></div><div class="bs"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">🛡 Stability</span><div class="kbar"><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs"></div></div></div>
+        </div>
+        <div class="khighlights"><span class="ktag2">Max Handling</span><span class="ktag2">Lightweight</span><span class="ktag2">Intermediate</span></div>
+        <div class="kprice-row"><div class="kprice">+₹200 <small>upgrade</small></div><div class="kspeed">Top Speed<strong>88 km/h</strong></div></div>
+        <button class="kbtn" id="kartbtn-2">SELECT DRIFT KING →</button>
+      </div>
+    </div>
+
+    <!-- KART 3 -->
+    <div class="kcard reveal rd2" id="kart-3" onclick="selectKart(3,'Thunder Beast','₹+400')">
+      <div class="kimg">
+        <div class="kclass-badge">Class 3 — Pro</div>
+        <div class="kimg-wrap">
+          <svg viewBox="0 0 320 180" fill="none">
+            <ellipse cx="160" cy="165" rx="118" ry="11" fill="rgba(0,0,0,.6)"/>
+            <rect x="28" y="116" width="24" height="48" rx="12" fill="#111" stroke="#FF6B00" stroke-width="2"/>
+            <circle cx="40" cy="140" r="7" fill="#FF6B00" opacity=".35"/>
+            <rect x="268" y="116" width="24" height="48" rx="12" fill="#111" stroke="#FF6B00" stroke-width="2"/>
+            <circle cx="280" cy="140" r="7" fill="#FF6B00" opacity=".35"/>
+            <rect x="62" y="126" width="17" height="32" rx="8" fill="#111" stroke="#FF6B00" stroke-width="1.5"/>
+            <rect x="241" y="126" width="17" height="32" rx="8" fill="#111" stroke="#FF6B00" stroke-width="1.5"/>
+            <path d="M60 108 L70 82 L250 82 L260 108 L272 146 L48 146 Z" fill="#141414" stroke="#FF6B00" stroke-width="1.5"/>
+            <path d="M48 115 L70 98 L70 136 L48 136 Z" fill="#FF6B00" opacity=".9"/>
+            <path d="M272 115 L250 98 L250 136 L272 136 Z" fill="#FF6B00" opacity=".9"/>
+            <path d="M85 82 L95 54 L225 54 L235 82 Z" fill="#181818" stroke="#FF6B00" stroke-width="1.5"/>
+            <line x1="120" y1="82" x2="115" y2="54" stroke="#FF6B00" stroke-width="2.5"/>
+            <line x1="200" y1="82" x2="205" y2="54" stroke="#FF6B00" stroke-width="2.5"/>
+            <path d="M115 80 L125 56 L195 56 L205 80 Z" fill="#0a0a0a" stroke="#FF6B00" stroke-width="2"/>
+            <ellipse cx="160" cy="51" rx="26" ry="22" fill="#181818"/>
+            <ellipse cx="160" cy="49" rx="22" ry="16" fill="#232323"/>
+            <rect x="147" y="47" width="26" height="11" rx="5" fill="#0a0a0a" opacity=".9"/>
+            <rect x="149" y="48" width="22" height="8" rx="3" fill="#FF6B00" opacity=".75"/>
+            <line x1="149" y1="42" x2="171" y2="42" stroke="#FF6B00" stroke-width="2"/>
+            <path d="M80 144 L60 154 L110 154 Z" fill="#FF6B00"/>
+            <path d="M240 144 L210 154 L260 154 Z" fill="#FF6B00"/>
+            <rect x="90" y="78" width="140" height="6" rx="2" fill="#FF6B00" opacity=".8"/>
+            <line x1="110" y1="82" x2="110" y2="75" stroke="#FF6B00" stroke-width="2"/>
+            <line x1="210" y1="82" x2="210" y2="75" stroke="#FF6B00" stroke-width="2"/>
+            <line x1="160" y1="82" x2="155" y2="70" stroke="#FF6B00" stroke-width="2.5"/>
+            <rect x="138" y="134" width="44" height="14" rx="2" fill="#FF6B00"/>
+            <text x="160" y="145" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="9" fill="#000">03</text>
+          </svg>
+        </div>
+      </div>
+      <div class="kbody">
+        <div class="knum-bg">03</div>
+        <div class="kname">Thunder Beast</div>
+        <div class="ktag">Heavyweight champion. Massive grip, smooth cornering and brutal top-speed combined. The full package — for serious racers only.</div>
+        <div class="kspecs">
+          <div class="kspec-row"><span class="kspec-lbl">⚡ Speed</span><div class="kbar"><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div><div class="bs r"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">🎯 Handling</span><div class="kbar"><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">⚖ Weight</span><div class="kbar"><div class="bs g"></div><div class="bs g"></div><div class="bs"></div><div class="bs"></div><div class="bs"></div></div></div>
+          <div class="kspec-row"><span class="kspec-lbl">🛡 Stability</span><div class="kbar"><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div><div class="bs y"></div></div></div>
+        </div>
+        <div class="khighlights"><span class="ktag2">Heavyweight</span><span class="ktag2">Max Grip</span><span class="ktag2">Pro Only</span></div>
+        <div class="kprice-row"><div class="kprice">+₹400 <small>upgrade</small></div><div class="kspeed">Top Speed<strong>92 km/h</strong></div></div>
+        <button class="kbtn" id="kartbtn-3">SELECT THUNDER BEAST →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chk"></div>
+
+<!-- TRACK SELECTION -->
+<section id="tracks" class="track-section">
+  <div class="stag">Choose Your Circuit</div>
+  <h2 class="stitle">FOUR TRACKS.<br><span class="outline">ONE WINNER.</span></h2>
+  <p class="section-intro">Each circuit is a completely different challenge. From high-speed ovals to championship layouts — find your track and master it.</p>
+  <div class="track-grid">
+    <div class="tcard reveal" id="track-A" onclick="selectTrack('A','Velocity Oval','High-speed')">
+      <div class="tvis"><div class="ttype">High-Speed</div>
+        <svg viewBox="0 0 360 170" fill="none"><ellipse cx="180" cy="85" rx="148" ry="62" stroke="rgba(255,255,255,.15)" stroke-width="28" fill="none"/><ellipse cx="180" cy="85" rx="148" ry="62" stroke="rgba(255,32,32,.5)" stroke-width="1.5" fill="none" stroke-dasharray="8 5"/><line x1="53" y1="74" x2="53" y2="97" stroke="#FFD600" stroke-width="3"/><text x="66" y="88" fill="#FFD600" font-size="9" font-family="Barlow Condensed" font-weight="900" letter-spacing="2">START</text></svg>
+      </div>
+      <div class="tbody">
+        <div class="tname">Velocity Oval</div>
+        <div class="tdesc">Classic oval built for pure speed. Two long straights let you hit maximum velocity. Best for Sprint Blade karts and first-time racers.</div>
+        <div class="tstats"><div class="tstat"><div class="v">0.9km</div><div class="k">Length</div></div><div class="tstat"><div class="v">4</div><div class="k">Corners</div></div><div class="tstat"><div class="v">54s</div><div class="k">Lap Record</div></div></div>
+        <button class="tbtn" id="trackbtn-A">SELECT TRACK →</button>
+      </div>
+    </div>
+    <div class="tcard reveal rd1" id="track-B" onclick="selectTrack('B','Dragon Circuit','Technical')">
+      <div class="tvis"><div class="ttype">Technical</div>
+        <svg viewBox="0 0 360 170" fill="none"><path d="M50 43 L298 43 Q328 43 330 70 L330 116 Q328 143 298 143 L198 143 Q173 143 156 156 Q138 170 110 156 Q83 143 73 116 L53 76 Q43 50 50 43 Z" stroke="rgba(255,255,255,.15)" stroke-width="28" fill="none" stroke-linejoin="round"/><path d="M50 43 L298 43 Q328 43 330 70 L330 116 Q328 143 298 143 L198 143 Q173 143 156 156 Q138 170 110 156 Q83 143 73 116 L53 76 Q43 50 50 43 Z" stroke="rgba(255,32,32,.5)" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-dasharray="8 5"/><line x1="50" y1="43" x2="50" y2="71" stroke="#FFD600" stroke-width="3"/></svg>
+      </div>
+      <div class="tbody">
+        <div class="tname">Dragon Circuit</div>
+        <div class="tdesc">9 technical corners with a chicane section. Rewards precision driving. Best for the Drift King with superior handling and cornering ability.</div>
+        <div class="tstats"><div class="tstat"><div class="v">1.2km</div><div class="k">Length</div></div><div class="tstat"><div class="v">9</div><div class="k">Corners</div></div><div class="tstat"><div class="v">58s</div><div class="k">Lap Record</div></div></div>
+        <button class="tbtn" id="trackbtn-B">SELECT TRACK →</button>
+      </div>
+    </div>
+    <div class="tcard reveal" id="track-C" onclick="selectTrack('C','Night Serpent','Night')">
+      <div class="tvis"><div class="ttype">Night — 7PM+</div>
+        <svg viewBox="0 0 360 170" fill="none"><path d="M40 85 Q76 33,134 50 Q194 67,214 38 Q234 9,306 30 L316 64 Q276 48,256 86 Q236 124,196 104 Q156 84,126 112 Q96 140,76 148 Q46 158,40 126 Z" stroke="rgba(255,255,255,.15)" stroke-width="28" fill="none" stroke-linejoin="round"/><path d="M40 85 Q76 33,134 50 Q194 67,214 38 Q234 9,306 30 L316 64 Q276 48,256 86 Q236 124,196 104 Q156 84,126 112 Q96 140,76 148 Q46 158,40 126 Z" stroke="rgba(255,214,0,.5)" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-dasharray="8 5"/><circle cx="200" cy="18" r="1.5" fill="#FFD600" opacity=".6"/><circle cx="260" cy="12" r="1" fill="#FFD600" opacity=".4"/><circle cx="318" cy="20" r="1.5" fill="#FFD600" opacity=".5"/></svg>
+      </div>
+      <div class="tbody">
+        <div class="tname">Night Serpent</div>
+        <div class="tdesc">Undulating serpentine layout under full floodlights. Available from 7PM onwards. The same circuit — a completely different beast after dark.</div>
+        <div class="tstats"><div class="tstat"><div class="v">1.1km</div><div class="k">Length</div></div><div class="tstat"><div class="v">11</div><div class="k">Corners</div></div><div class="tstat"><div class="v">61s</div><div class="k">Lap Record</div></div></div>
+        <button class="tbtn" id="trackbtn-C">SELECT TRACK →</button>
+      </div>
+    </div>
+    <div class="tcard reveal rd1" id="track-D" onclick="selectTrack('D','Grand Prix Arena','Championship')">
+      <div class="tvis"><div class="ttype">Championship</div>
+        <svg viewBox="0 0 360 170" fill="none"><path d="M55 50 L276 50 Q310 50 320 78 L320 116 Q310 144 276 144 L216 144 Q186 144 170 160 Q154 174 126 160 Q98 144 86 116 L70 80 Q60 52 55 50 Z" stroke="rgba(255,255,255,.15)" stroke-width="26" fill="none" stroke-linejoin="round"/><path d="M55 50 L276 50 Q310 50 320 78 L320 116 Q310 144 276 144 L216 144 Q186 144 170 160 Q154 174 126 160 Q98 144 86 116 L70 80 Q60 52 55 50 Z" stroke="rgba(255,32,32,.5)" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-dasharray="8 5"/><line x1="55" y1="50" x2="55" y2="78" stroke="#FFD600" stroke-width="3"/><circle cx="256" cy="50" r="5" fill="none" stroke="rgba(255,32,32,.6)" stroke-width="1.5"/><text x="256" y="38" fill="rgba(255,32,32,.6)" font-size="8" text-anchor="middle" font-family="Barlow Condensed" font-weight="900">PIT</text></svg>
+      </div>
+      <div class="tbody">
+        <div class="tname">Grand Prix Arena</div>
+        <div class="tdesc">Full championship layout with pit-lane section. 12 corners, two DRS straights and the infamous hairpin. Recommended for experienced racers only.</div>
+        <div class="tstats"><div class="tstat"><div class="v">1.5km</div><div class="k">Length</div></div><div class="tstat"><div class="v">12</div><div class="k">Corners</div></div><div class="tstat"><div class="v">67s</div><div class="k">Lap Record</div></div></div>
+        <button class="tbtn" id="trackbtn-D">SELECT TRACK →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCES -->
+<section id="experiences">
+  <div class="stag">What We Offer</div>
+  <h2 class="stitle">RACE YOUR<br><span class="outline">WAY</span></h2>
+  <div class="exp-grid">
+    <div class="ecard large reveal"><div class="enum">01</div><div class="eicon">🏎️</div><div class="etitle">Grand Prix<br>Experience</div><div class="edesc">Our flagship package. Choose your kart class, pick your circuit, qualify, race and compete with pro-level timing tracking every millisecond. The definitive Velocity Arena experience.</div><div class="espeed">GP</div></div>
+    <div class="ecard reveal rd1"><div class="enum">02</div><div class="eicon">🎂</div><div class="etitle">Birthday Bash</div><div class="edesc">Private track time, custom trophies and a dedicated race coordinator for your entire crew.</div></div>
+    <div class="ecard reveal rd2"><div class="enum">03</div><div class="eicon">🌙</div><div class="etitle">Night Race</div><div class="edesc">The Night Serpent circuit under full floodlights. A completely different beast after dark.</div></div>
+    <div class="ecard reveal rd1"><div class="enum">04</div><div class="eicon">👔</div><div class="etitle">Corporate<br>Events</div><div class="edesc">Team building that actually works. Catering, branding and dedicated race coordinators included.</div></div>
+    <div class="ecard reveal rd2"><div class="enum">05</div><div class="eicon">👶</div><div class="etitle">Junior Racing</div><div class="edesc">Ages 7+ race on our dedicated junior circuit with safety-tuned low-speed karts.</div></div>
+  </div>
+</section>
+
+<div class="chk"></div>
+
+<!-- BOOKING -->
+<section id="book" class="booking">
+  <div class="stag">Reserve Your Slot</div>
+  <h2 class="stitle">BOOK A<br><span class="outline">SESSION</span></h2>
+  <div class="book-inner">
+    <div class="book-form reveal">
+      <div class="sum-box" id="bookingSummary"><div class="sum-ph">⬆ Select a kart and track above to auto-fill your booking</div></div>
+      <div class="frow">
+        <div class="fgrp"><label>First Name</label><input type="text" id="firstName" placeholder="Ayrton"/></div>
+        <div class="fgrp"><label>Last Name</label><input type="text" id="lastName" placeholder="Senna"/></div>
+      </div>
+      <div class="fgrp"><label>Email Address</label><input type="email" id="email" placeholder="racer@velocityarena.in"/></div>
+      <div class="frow">
+        <div class="fgrp"><label>Phone Number</label><input type="tel" id="phone" placeholder="+91 98765 43210"/></div>
+        <div class="fgrp"><label>Number of Riders</label><select id="riders"><option>1 Rider</option><option>2 Riders</option><option>3–5 Riders</option><option>6–10 Riders</option><option>10+ (Group)</option></select></div>
+      </div>
+      <div class="frow">
+        <div class="fgrp"><label>Kart Class</label><select id="kartSelect"><option value="">— Select a kart class —</option><option value="Sprint Blade">Class 1 — Sprint Blade (Speed)</option><option value="Drift King">Class 2 — Drift King (Smooth)</option><option value="Thunder Beast">Class 3 — Thunder Beast (Pro)</option></select></div>
+        <div class="fgrp"><label>Track</label><select id="trackSelect"><option value="">— Select a track —</option><option value="Velocity Oval">Velocity Oval (High-speed)</option><option value="Dragon Circuit">Dragon Circuit (Technical)</option><option value="Night Serpent">Night Serpent (Night)</option><option value="Grand Prix Arena">Grand Prix Arena (Championship)</option></select></div>
+      </div>
+      <div class="frow">
+        <div class="fgrp"><label>Package</label><select id="package"><option>Sprint Race (10 min) — ₹499</option><option>Grand Prix (20 min) — ₹899</option><option>Championship (30 min) — ₹1299</option><option>Night Race — ₹999</option><option>Corporate Event</option></select></div>
+        <div class="fgrp"><label>Race Date</label><input type="date" id="raceDate"/></div>
+      </div>
+      <div class="fgrp"><label>Special Requests (optional)</label><textarea id="notes" rows="3" placeholder="Birthday celebration, dietary requirements, accessibility needs..."></textarea></div>
+      <button class="sub-btn" onclick="submitBooking()">CONFIRM BOOKING →</button>
+    </div>
+    <div id="pricing" class="reveal rd2">
+      <div class="stag" style="margin-bottom:22px">Pricing</div>
+      <div class="pcards">
+        <div class="pcard"><div><div class="pname">Sprint</div><div class="pdetail">10 minutes on track</div></div><div class="pamount">₹499<small>/person</small></div></div>
+        <div class="pcard feat"><div><div class="pname">Grand Prix</div><div class="pdetail">20 min + timing system</div></div><div class="pamount">₹899<small>/person</small></div></div>
+        <div class="pcard"><div><div class="pname">Championship</div><div class="pdetail">30 min + trophy + podium</div></div><div class="pamount">₹1299<small>/person</small></div></div>
+        <div class="pcard"><div><div class="pname">Night Race</div><div class="pdetail">20 min after dark</div></div><div class="pamount">₹999<small>/person</small></div></div>
+        <div class="pcard"><div><div class="pname">Junior</div><div class="pdetail">10 min, ages 7+</div></div><div class="pamount">₹349<small>/child</small></div></div>
+        <div class="pcard"><div><div class="pname" style="font-size:16px">Kart Upgrades</div><div class="pdetail">Class 2 +₹200 · Class 3 +₹400</div></div><div class="pamount" style="font-size:18px">Add-on</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="stag">Reviews</div>
+  <h2 class="stitle">WHAT RACERS<br><span class="outline">SAY</span></h2>
+  <div class="testi-grid">
+    <div class="tcard2 reveal"><div class="tstars">★★★★★</div><p class="ttext">"Took the Thunder Beast on the Grand Prix Arena — completely different league. The grip in the hairpin is unreal. Best ₹1299 I've spent. Already booked for next weekend."</p><div class="tauthor"><div class="tavatar">RK</div><div><div class="taname">Rahul K.</div><div class="tarole">Thunder Beast · Grand Prix Arena</div></div></div></div>
+    <div class="tcard2 reveal rd1"><div class="tstars">★★★★★</div><p class="ttext">"The Drift King on Dragon Circuit is incredibly rewarding when you nail the chicane. Staff were brilliant and the timing system is world-class. Will definitely be back."</p><div class="tauthor"><div class="tavatar">SM</div><div><div class="taname">Sneha M.</div><div class="tarole">Drift King · Dragon Circuit</div></div></div></div>
+    <div class="tcard2 reveal rd2"><div class="tstars">★★★★★</div><p class="ttext">"Night racing on the Serpent track is on a completely different level. Best birthday I've ever had. My friends won't stop talking about it. Velocity Arena is insane."</p><div class="tauthor"><div class="tavatar">AP</div><div><div class="taname">Arjun P.</div><div class="tarole">Sprint Blade · Night Serpent</div></div></div></div>
+  </div>
+</section>
+
+<div class="chk"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="stag">Find Us</div>
+  <h2 class="stitle">VISIT THE<br><span class="outline">ARENA</span></h2>
+  <div class="contact-grid">
+    <div class="cinfo reveal">
+      <h3>Get In<br>Touch</h3>
+      <div class="cdetail"><div class="cdet-icon">📍</div><div><div class="cdet-lbl">Our Address</div><div class="cdet-val">Plot 14, Ring Road, Near Sitabuldi<br>Nagpur — 440001, Maharashtra, India</div></div></div>
+      <div class="cdetail"><div class="cdet-icon">📞</div><div><div class="cdet-lbl">Phone</div><div class="cdet-val"><a href="tel:+919876543210">+91 98765 43210</a> (Bookings)<br><a href="tel:+919876543211">+91 98765 43211</a> (Events)</div></div></div>
+      <div class="cdetail"><div class="cdet-icon">✉️</div><div><div class="cdet-lbl">Email</div><div class="cdet-val"><a href="mailto:info@velocityarena.in">info@velocityarena.in</a><br><a href="mailto:events@velocityarena.in">events@velocityarena.in</a></div></div></div>
+      <div class="cdetail"><div class="cdet-icon">🕐</div><div><div class="cdet-lbl">Opening Hours</div><div class="hours"><div class="hrow"><span class="day">Mon – Fri</span><span class="time">10AM – 10PM</span></div><div class="hrow"><span class="day">Saturday</span><span class="time">9AM – 11PM</span></div><div class="hrow"><span class="day">Sunday</span><span class="time">9AM – 10PM</span></div><div class="hrow"><span class="day">Night Race</span><span class="time">7PM – Close</span></div></div></div></div>
+    </div>
+    <div class="cmap reveal rd1">
+      <div class="stag" style="margin-bottom:0">Location Map</div>
+      <div class="map-area">
+        <svg viewBox="0 0 400 280" fill="none">
+          <line x1="0" y1="140" x2="400" y2="140" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+          <line x1="200" y1="0" x2="200" y2="280" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+          <line x1="0" y1="70" x2="400" y2="70" stroke="rgba(255,255,255,.04)" stroke-width="4"/>
+          <line x1="0" y1="210" x2="400" y2="210" stroke="rgba(255,255,255,.04)" stroke-width="4"/>
+          <line x1="100" y1="0" x2="100" y2="280" stroke="rgba(255,255,255,.04)" stroke-width="4"/>
+          <line x1="300" y1="0" x2="300" y2="280" stroke="rgba(255,255,255,.04)" stroke-width="4"/>
+          <ellipse cx="200" cy="140" rx="128" ry="93" stroke="rgba(255,255,255,.1)" stroke-width="12" fill="none"/>
+          <ellipse cx="200" cy="140" rx="128" ry="93" stroke="rgba(255,255,255,.05)" stroke-width="1" fill="none" stroke-dasharray="6 4"/>
+          <text x="200" y="34" fill="rgba(255,255,255,.22)" font-size="9" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" letter-spacing="3">RING ROAD</text>
+          <circle cx="200" cy="140" r="18" fill="rgba(255,32,32,.18)" stroke="#FF2020" stroke-width="2"/>
+          <circle cx="200" cy="140" r="8" fill="#FF2020"/>
+          <circle cx="200" cy="140" r="28" fill="none" stroke="rgba(255,32,32,.14)" stroke-width="1.5"/>
+          <circle cx="200" cy="140" r="40" fill="none" stroke="rgba(255,32,32,.07)" stroke-width="1"/>
+          <rect x="212" y="123" width="58" height="22" rx="3" fill="rgba(255,32,32,.9)"/>
+          <text x="241" y="138" fill="white" font-size="10" text-anchor="middle" font-family="Orbitron" font-weight="900">VA</text>
+          <text x="370" y="28" fill="rgba(255,255,255,.28)" font-size="12" font-family="Barlow Condensed" font-weight="700">N ↑</text>
+          <text x="18" y="136" fill="rgba(255,255,255,.18)" font-size="8" font-family="Barlow Condensed">SITABULDI →</text>
+          <text x="200" y="272" fill="rgba(255,255,255,.18)" font-size="8" font-family="Barlow Condensed" text-anchor="middle">↓ WARDHA ROAD</text>
+        </svg>
+      </div>
+      <a href="https://maps.google.com" target="_blank" class="map-btn">GET DIRECTIONS ON GOOGLE MAPS →</a>
+    </div>
+  </div>
+</section>
+
+<div class="chk"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ftop">
+    <div>
+      <div class="fbrand"><div class="flogo-icon">VA</div><div class="flogo-name">VELOCITY <span>ARENA</span></div></div>
+      <p class="ftagline">Nagpur's premier go-kart racing complex. Four championship circuits, three world-class kart classes, and one mission — to give you the most exhilarating motorsport experience possible.</p>
+      <p class="fslogan">"Race. Conquer. Repeat."</p>
+      <div class="fbadges"><span class="fbadge">⭐ 4.9/5 Rating</span><span class="fbadge">🏆 Best Karting 2024</span><span class="fbadge">✅ Safety Certified</span></div>
+    </div>
+    <div class="fcol"><h4>Experiences</h4><ul><li><a href="#experiences">Sprint Race</a></li><li><a href="#experiences">Grand Prix</a></li><li><a href="#experiences">Night Racing</a></li><li><a href="#experiences">Junior Circuit</a></li><li><a href="#experiences">Corporate Events</a></li></ul></div>
+    <div class="fcol"><h4>Kart Classes</h4><ul><li><a href="#karts">Class 1 — Sprint Blade</a></li><li><a href="#karts">Class 2 — Drift King</a></li><li><a href="#karts">Class 3 — Thunder Beast</a></li><li><a href="#karts">Junior Karts</a></li><li><a href="#tracks">Race Circuits</a></li></ul></div>
+    <div class="fcol"><h4>Contact</h4><ul><li><a href="tel:+919876543210">+91 98765 43210</a></li><li><a href="mailto:info@velocityarena.in">info@velocityarena.in</a></li><li><a href="#contact">Plot 14, Ring Road, Nagpur</a></li><li><a href="#contact">Mon–Sun: 10AM – 10PM</a></li><li><a href="#book">Book a Session</a></li></ul></div>
+  </div>
+  <div class="fbot">
+    <span class="fcopy">© 2026 Velocity Arena Pvt. Ltd. All rights reserved. · Nagpur, Maharashtra, India</span>
+    <div class="fsocials"><a href="#" class="slink">ig</a><a href="#" class="slink">fb</a><a href="#" class="slink">yt</a><a href="#" class="slink">tw</a></div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-ov" id="confirmModal">
+  <div class="modal">
+    <div class="m-icon">🏁</div>
+    <div class="m-title">YOU'RE<br><span>CONFIRMED</span></div>
+    <p class="m-body" id="modalBody">Your race slot has been booked. A confirmation will be sent to your email.</p>
+    <div class="m-ref" id="modalRef">REF: VA-000000</div>
+    <button class="m-close" onclick="closeModal()">BACK TO THE PITS →</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
+<div class="admin-panel" id="adminPanel">
+  <div class="adm-inner">
+    <div class="adm-hdr"><div class="adm-title">VELOCITY <span>ARENA</span> — Admin Dashboard</div><button class="adm-close" onclick="closeAdmin()">✕ CLOSE</button></div>
+    <div class="adm-stats" id="adminStats"></div>
+    <div id="adminBookings"></div>
+  </div>
+</div>
+
+<script>
+let selectedKart=null,selectedTrack=null;
+let bookingsDB=JSON.parse(sessionStorage.getItem('va_bookings')||'[]');
+
+// CURSOR
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';});
+document.querySelectorAll('a,button,.kcard,.tcard,.wcard').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';cur.style.background='#FFD600';});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur.style.background='var(--red)';});
+});
+
+// REVEAL
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+
+// KART LABELS
+const KL=['SELECT SPRINT BLADE →','SELECT DRIFT KING →','SELECT THUNDER BEAST →'];
+
+function selectKart(id,name,price){
+  selectedKart={id,name,price};
+  [1,2,3].forEach(n=>{document.getElementById('kart-'+n).classList.remove('selected');document.getElementById('kartbtn-'+n).textContent=KL[n-1];});
+  document.getElementById('kart-'+id).classList.add('selected');
+  document.getElementById('kartbtn-'+id).textContent='✓ SELECTED';
+  document.getElementById('kartSelect').value=name;
+  updateSummary();
+}
+
+function selectTrack(id,name,type){
+  selectedTrack={id,name,type};
+  ['A','B','C','D'].forEach(t=>{document.getElementById('track-'+t).classList.remove('selected');document.getElementById('trackbtn-'+t).textContent='SELECT TRACK →';});
+  document.getElementById('track-'+id).classList.add('selected');
+  document.getElementById('trackbtn-'+id).textContent='✓ SELECTED';
+  document.getElementById('trackSelect').value=name;
+  updateSummary();
+}
+
+function updateSummary(){
+  const b=document.getElementById('bookingSummary');
+  if(!selectedKart&&!selectedTrack){b.innerHTML='<div class="sum-ph">⬆ Select a kart and track above to auto-fill your booking</div>';return;}
+  let h='';
+  if(selectedKart)h+=`<div class="sum-line"><span class="sum-lbl">🏎 Kart Class</span><span class="sum-val">${selectedKart.name} (${selectedKart.price})</span></div>`;
+  if(selectedTrack)h+=`<div class="sum-line"><span class="sum-lbl">🛣 Track</span><span class="sum-val">${selectedTrack.name}</span></div>`;
+  b.innerHTML=h;
+}
+
+function submitBooking(){
+  const fn=document.getElementById('firstName').value.trim();
+  const ln=document.getElementById('lastName').value.trim();
+  const em=document.getElementById('email').value.trim();
+  const ph=document.getElementById('phone').value.trim();
+  const ri=document.getElementById('riders').value;
+  const ka=document.getElementById('kartSelect').value;
+  const tr=document.getElementById('trackSelect').value;
+  const pk=document.getElementById('package').value;
+  const dt=document.getElementById('raceDate').value;
+  const nt=document.getElementById('notes').value.trim();
+  if(!fn||!ln||!em||!ka||!tr||!dt){alert('Please fill in all required fields — Name, Email, Kart Class, Track and Date.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){alert('Please enter a valid email address.');return;}
+  const ref='VA-'+Date.now().toString().slice(-6);
+  const booking={ref,firstName:fn,lastName:ln,email:em,phone:ph,riders:ri,kart:ka,track:tr,package:pk,date:dt,notes:nt,status:'Confirmed',createdAt:new Date().toLocaleString('en-IN')};
+  bookingsDB.push(booking);
+  sessionStorage.setItem('va_bookings',JSON.stringify(bookingsDB));
+  document.getElementById('modalBody').textContent=`${fn}, your slot on ${tr} with the ${ka} is locked in for ${dt}. Confirmation sent to ${em}.`;
+  document.getElementById('modalRef').textContent='Booking Reference: '+ref;
+  document.getElementById('confirmModal').classList.add('open');
+  ['firstName','lastName','email','phone','raceDate','notes'].forEach(id=>document.getElementById(id).value='');
+  ['riders','kartSelect','trackSelect','package'].forEach(id=>document.getElementById(id).selectedIndex=0);
+  selectedKart=null;selectedTrack=null;updateSummary();
+  [1,2,3].forEach(n=>{document.getElementById('kart-'+n).classList.remove('selected');document.getElementById('kartbtn-'+n).textContent=KL[n-1];});
+  ['A','B','C','D'].forEach(t=>{document.getElementById('track-'+t).classList.remove('selected');document.getElementById('trackbtn-'+t).textContent='SELECT TRACK →';});
+}
+
+function closeModal(){document.getElementById('confirmModal').classList.remove('open');}
+
+function openAdmin(){renderAdmin();document.getElementById('adminPanel').classList.add('open');}
+function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');}
+function renderAdmin(){
+  const b=JSON.parse(sessionStorage.getItem('va_bookings')||'[]');
+  const rev=b.reduce((a,x)=>{const p=x.package||'';return a+(p.includes('₹499')?499:p.includes('₹899')?899:p.includes('₹1299')?1299:p.includes('₹999')?999:0);},0);
+  document.getElementById('adminStats').innerHTML=`<div class="adm-stat"><div class="n">${b.length}</div><div class="l">Total Bookings</div></div><div class="adm-stat"><div class="n">${b.filter(x=>x.kart==='Thunder Beast').length}</div><div class="l">Thunder Beast</div></div><div class="adm-stat"><div class="n">${b.filter(x=>x.track==='Grand Prix Arena').length}</div><div class="l">GP Arena</div></div><div class="adm-stat"><div class="n">₹${rev.toLocaleString('en-IN')}</div><div class="l">Est. Revenue</div></div>`;
+  if(!b.length){document.getElementById('adminBookings').innerHTML='<div class="no-book"><div style="font-size:48px">🏎️</div><p>No bookings yet. The track is ready.</p></div>';return;}
+  document.getElementById('adminBookings').innerHTML=`<table class="btable"><thead><tr><th>Ref</th><th>Name</th><th>Email</th><th>Kart</th><th>Track</th><th>Package</th><th>Date</th><th>Status</th></tr></thead><tbody>${b.map(x=>`<tr><td style="font-family:'Orbitron',sans-serif;font-size:11px;color:var(--yellow)">${x.ref}</td><td>${x.firstName} ${x.lastName}</td><td style="color:var(--grey);font-size:12px">${x.email}</td><td style="color:var(--red);font-family:'Barlow Condensed',sans-serif;font-weight:900">${x.kart}</td><td style="font-size:12px">${x.track}</td><td style="font-size:11px;color:var(--grey)">${(x.package||'').split('—')[0]}</td><td style="font-size:12px;color:var(--grey)">${x.date}</td><td><span class="badge-c">${x.status}</span></td></tr>`).join('')}</tbody></table>`;
+}
+
+document.getElementById('kartSelect').addEventListener('change',function(){
+  const v=this.value;
+  [1,2,3].forEach(n=>{document.getElementById('kart-'+n).classList.remove('selected');document.getElementById('kartbtn-'+n).textContent=KL[n-1];});
+  if(v==='Sprint Blade'){document.getElementById('kart-1').classList.add('selected');document.getElementById('kartbtn-1').textContent='✓ SELECTED';selectedKart={id:1,name:v,price:'₹+0'};}
+  if(v==='Drift King'){document.getElementById('kart-2').classList.add('selected');document.getElementById('kartbtn-2').textContent='✓ SELECTED';selectedKart={id:2,name:v,price:'₹+200'};}
+  if(v==='Thunder Beast'){document.getElementById('kart-3').classList.add('selected');document.getElementById('kartbtn-3').textContent='✓ SELECTED';selectedKart={id:3,name:v,price:'₹+400'};}
+  updateSummary();
+});
+document.getElementById('trackSelect').addEventListener('change',function(){
+  const v=this.value,map={'Velocity Oval':'A','Dragon Circuit':'B','Night Serpent':'C','Grand Prix Arena':'D'};
+  ['A','B','C','D'].forEach(t=>{document.getElementById('track-'+t).classList.remove('selected');document.getElementById('trackbtn-'+t).textContent='SELECT TRACK →';});
+  if(v&&map[v]){document.getElementById('track-'+map[v]).classList.add('selected');document.getElementById('trackbtn-'+map[v]).textContent='✓ SELECTED';selectedTrack={id:map[v],name:v};}
+  updateSummary();
+});
+document.getElementById('raceDate').min=new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
