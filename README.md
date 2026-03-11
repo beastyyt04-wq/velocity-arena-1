@@ -157,4 +157,5 @@ velocity-arena/
 
 ---
 
-*Built with ❤️ for Final Year Project — Web Development*
+*Built by shlok surwase 
+
